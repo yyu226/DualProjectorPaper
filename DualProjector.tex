@@ -1,0 +1,92 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                File: OpEx_temp.tex                  %
+%                Date: April 30, 2014                 %
+%                                                     %
+%           LaTeX template file for use with          %
+%           OSA's journal Optics Express              %
+%                                                     %
+%  send comments to Theresa Miller, tmiller@osa.org   %
+%                                                     %
+% This file requires style file, opex3.sty, under     %
+%              the LaTeX article class                %
+%                                                     %
+%   \documentclass[10pt,letterpaper]{article}         %
+%   \usepackage{opex3}                                %
+%                                                     %
+%                                                     %
+%       (c) 2014 Optical Society of America           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%% preamble %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[10pt,letterpaper]{article}
+\usepackage{opex3}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{verbatim}
+%%%%%%%%%%%%%%%%%%%%%%% begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%% title page information %%%%%%%%%%%%%%%%%%
+\title{Dual-projector structured light 3D shape measurement}
+
+\author{Ying Yu$^1$ and Daniel L. Lau$^{2,*}$}
+
+\address{$^1$Department of Electrical and Computer Engineering, University of Kentucky, Lexington, KY, 40506, USA\\
+$^2$Department of Electrical and Computer Engineering, University of Kentucky, Lexington, KY, 40506, USA}
+
+\email{$^*$dllau@uky.edu} %% email address is required
+
+% \homepage{http:...} %% author's URL, if desired
+
+%%%%%%%%%%%%%%%%%%% abstract and OCIS codes %%%%%%%%%%%%%%%%
+%% [use \begin{abstract*}...\end{abstract*} if exempt from copyright]
+
+\begin{abstract}
+Detailed instructions and formatting guidelines for preparing \textit{Optics Express}, \textit{Biomedical Optics Express}, and \textit{Optical Materials Express} manuscripts in \LaTeX. For a simple outline and template, open the simple template file \texttt{OpEx\_temp.txt}. The Express journal simple and extended templates are also available on \url{http://www.writelatex.com}. OSA encourages the use of this free online collaborative tool for writing your OSA article.
+\end{abstract}
+
+\ocis{(000.0000) General.} % REPLACE WITH CORRECT OCIS CODES FOR YOUR ARTICLE, MINIMUM OF TWO; Avoid using the OCIS codes for “General” or “General science” whenever possible.
+
+%%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}
+
+\bibitem{kai10}K.i Liu, Y. Wang, D. L. Lau, Q. Hao, and L. G. Hassebrook, ``Dual-frequency pattern scheme for high-speed 3-D shape measurement,'' \opex {\bf 18}(5), 5229--5244 (2010).
+
+\bibitem{jiang18}C. Jiang, B. Lim, and S. Zhang, ``Three-dimensional shape measurement using a structured light system with dual projectors", \ao {\bf 57}(14), 3983-3990(2018).
+
+\bibitem{zhan17}G. Zhan, H. Tang, K. Zhong, Z. Li, Y. Shi, and C. Wang, ``High-speed FPGA-based phase measuring profilometry architecture", \opex {\bf 25}(9), 10553-10564(2017).
+
+\bibitem{guan03}C. Guan, L. G. Hassebrook, and D. L. Lau, `` Composite structured light pattern for three-dimensional video", \opex {\bf 11} (5), 406-417(2003).
+\end{thebibliography} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+It has been several decades since the structured light illumination (SLI) was proposed for the first time. Due to its high resolution and high accuracy, it is still an active research area to which a lot of time and efforts are devoted every year. As people relentlessly tried to develop high speed and high accuracy systems over the years, more and more SLI techniques have been adopted in industry and consumer electronics.\\
+A traditional SLI system consists of one camera, one projector and one image data processing instrument which is usually a personal computer. Thanks to the fast development of computer and electronics industry, SLI systems have been gaining better performance with better cameras, projectors and computers. Meanwhile, in terms of the principle and algorithm of the system, many experimental or practical techniques have been introduced by researchers to achieve high-speed and/or high accuracy 3D reconstruction. The fewer the patterns are projected, the less the data to be processed, hence the faster the 3D measurement can be done. One-shot SLI techniques are well-known for their widely applications on measuring moving objects. However, they are not so promising in terms of resolution and accuracy. One way to acquire both high speed and high resolution is to project a sequence with the least number of fringe patterns. Besides the unit frequency patterns that are essential for 3D reconstruction,  high frequency patterns are often added to reduce the effect of noise at unit frequency and increase the resolution, although these high frequency patterns will in turn give rise to some additional phase unwrapping computation in the processing unit. Guan \cite{guan03} and Liu \cite{kai10}proposed two different schemes to combine one unit frequency and one high frequency patterns into one composite pattern. With half number of the patterns to be projected, the speed of 3D measurement increased without lowering the resolution. In \cite{Zhan17}, Zhan took advantage of the parallelism and pipeline structure of FPGA, and conducted all the image data processing in an FPGA board instead of a normal personal computer.The speed was reportedly increased by more than 100 times comparing to CPU-based data processing. But the accuracy would go the opposite. Because there are limited resources of floating point units inside FPGA,  and the low capabilities of conducting complicated calculations force the FPGA to process the phase to depth value conversions in a simple algorithm instead of an accurate one.
+\\
+In this paper, we propose a dual-projector scheme that equip two projectors at opposite sides of the camera, each projector is fed with fringe patterns of three different frequencies sequentially. Higher frequency patterns are used to increase the accuracy of the measurement, accordingly they are later unwrapped by the unit frequency pattern at the expense of some extra computation for the processing instrument. Both projectors are synchronized with the camera by an FPGA-based circuit, the patterns projected by them are of same frequency but different phase. By projecting light to the objects from two different angles, the issues like shadow effect and multi-path effect which used to undermine the overall performance of the 3D measurements can be addressed.\\
+
+In order to further reduce the time of calibration and scan, we manage to make both projectors work at 120Hz. Also we build a look up table during calibration process, it provides us a one-to-one correspondence between the phase and the depth values of the 3D point clouds. The elimination of computation-intensive processing during target scan allows us to envision the potential of real-time 3D measurement.
+
+Our experimental system includes a Basler camera, an Optoma ML750 projector and a computer with Intel Core i7 quad-core processor.
+%Standard \LaTeX{} or AMS\TeX{} environments should be used to place tables, figures, and math. Examples are given below.
+
+%\begin{verbatim}
+%\begin{figure}[htbp]
+%\centering\includegraphics[width=7cm]{opexfig1.eps}
+%\caption{Sample caption (Ref. \cite{kai10}, Fig. 2).}
+%\end{figure}
+
+%\begin{equation}
+%H = \frac{1}{2m}(p_x^2 + p_y^2) + \frac{1}{2} M{\Omega}^2
+ %    (x^2 + y^2) + \omega (x p_y - y p_x).
+%\end{equation}
+%\end{verbatim}
+
+\section{Conclusion}
+%After proofreading the manuscript, compress your .TEX manuscript file and all figures (which should be in EPS format, or PDF format if you are using PDF-\LaTeX) in a ZIP, TAR or TAR-GZIP package. Prism, OSA’s article tracking system, will process in \LaTeX mode by default but will use PDF-\LaTeX if PDF figure files are detected. Note: TAR or TAR-%GZIP is no longer required. All files must be referenced at the root level (e.g., file \texttt{figure-1.eps}, not \texttt{/myfigs/figure-1.eps}). If there is video or other multimedia, the associated files should be uploaded separately.
+
+\end{document}
